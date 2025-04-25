@@ -35,8 +35,8 @@ public class UserService {
                 .build();
     }
 
-    public UserResponseDTO getUser(long userId) {
-        Optional<User> user = userRepository.findById(userId);
+    public UserResponseDTO getUser(String emailId) {
+        Optional<User> user = userRepository.findByEmailId(emailId);
         return UserResponseDTO.builder()
                 .userId(user.get().getUserId())
                 .firstName(user.get().getFirstName())
@@ -47,7 +47,7 @@ public class UserService {
     }
 
     public UserResponseDTO updateUser(UserDTO userDTO) {
-        User user = userRepository.findById(userDTO.getUserId())
+        User user = userRepository.findByEmailId(userDTO.getEmailId())
                 .orElseThrow(() -> new RuntimeException("User not found with id: " + userDTO.getUserId()));
 
         user.setFirstName(userDTO.getFirstName());
