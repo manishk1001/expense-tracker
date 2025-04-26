@@ -43,6 +43,7 @@ public class UserService {
                 .lastName(user.get().getLastName())
                 .emailId(user.get().getEmailId())
                 .monthlyIncome(user.get().getMonthlyIncome())
+                .createdAt(user.get().getCreatedAt())
                 .build();
     }
 
