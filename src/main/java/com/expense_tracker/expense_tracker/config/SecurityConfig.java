@@ -1,5 +1,6 @@
 package com.expense_tracker.expense_tracker.config;
 
+import com.expense_tracker.expense_tracker.controller.OAuth2SuccessHandler;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -23,6 +24,7 @@ public class SecurityConfig {
 
     private final JwtAuthenticationFilter jwtAuthFilter;
     private final UserDetailsService userDetailsService;
+    private final OAuth2SuccessHandler oAuth2SuccessHandler;
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -30,14 +32,17 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable())
                 .cors(cors -> cors.configure(http))
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/api/login", "/api/users/create").permitAll()
+                        .requestMatchers("/api/login", "/api/users/create","/oauth2/**","/login/**").permitAll()
                         .anyRequest().authenticated()
                 )
                 .sessionManagement(session -> 
                         session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 )
                 .authenticationProvider(authenticationProvider())
-                .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
+                .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
+                .oauth2Login(oauth2 -> oauth2
+                        .successHandler(oAuth2SuccessHandler)// Redirect here after OAuth login
+                );
 
         return http.build();
     }
