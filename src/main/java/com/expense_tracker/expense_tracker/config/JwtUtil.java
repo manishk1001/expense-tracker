@@ -9,6 +9,7 @@ import javax.crypto.SecretKey;
 import java.security.Key;
 import java.util.Base64;
 import java.util.Date;
+import java.util.List;
 
 @Component
 public class JwtUtil {
@@ -23,23 +24,37 @@ public class JwtUtil {
         return Keys.hmacShaKeyFor(decodedKey);
     }
 
-
-    public String generateToken(String email) {
+    // Generate JWT with userId in 'sub', emailId as a custom claim, and roles
+    public String generateToken(String email, long userId, List<String> roles) {
         return Jwts.builder()
-                .setSubject(email)
+                .setSubject(String.valueOf(userId))  // userId as 'sub'
+                .claim("email", email)  // email as a custom claim
+                .claim("roles", roles)  // roles as a custom claim
                 .setIssuedAt(new Date())
                 .setExpiration(new Date(System.currentTimeMillis() + expirationMillis))
                 .signWith(getSecretKey(), SignatureAlgorithm.HS256)
                 .compact();
     }
 
-    public String extractEmail(String token) {
-        return getClaims(token).getSubject();
+    // Extract roles from the JWT
+    public List<String> extractRoles(String token) {
+        return getClaims(token).get("roles", List.class);
     }
 
+    // Extract email from the JWT
+    public String extractEmail(String token) {
+        return getClaims(token).get("email", String.class);
+    }
+
+    // Extract userId (sub) from the JWT
+    public String extractUserId(String token) {
+        return getClaims(token).getSubject();  // 'sub' will be userId
+    }
+
+    // Validate the JWT token
     public boolean validateToken(String token) {
         try {
-            getClaims(token);
+            getClaims(token);  // Will throw an exception if token is invalid
             return true;
         } catch (JwtException e) {
             return false;

@@ -4,6 +4,8 @@ import com.expense_tracker.expense_tracker.dto.ExpenseDTO;
 import com.expense_tracker.expense_tracker.dto.PieChart;
 import com.expense_tracker.expense_tracker.entity.Category;
 import com.expense_tracker.expense_tracker.entity.User;
+import com.expense_tracker.expense_tracker.exception.ResourceNotFoundException;
+import com.expense_tracker.expense_tracker.exception.ResponseCodeEnum;
 import com.expense_tracker.expense_tracker.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -19,8 +21,8 @@ public class DashboardService {
     private final UserRepository userRepository;
     private final ExpenseService expenseService;
 
-    public List<ExpenseDTO> getTableByCategory(String emailId, String category, String yearMonth) {
-        List<ExpenseDTO> expenses = expenseService.getExpensesByMonth(emailId, yearMonth);
+    public List<ExpenseDTO> getTableByCategory(long userId, String category, String yearMonth) {
+        List<ExpenseDTO> expenses = expenseService.getExpensesByMonth(userId, yearMonth);
         List<ExpenseDTO> top5 = new ArrayList<>();
         for(ExpenseDTO expense : expenses){
             if(expense.getCategory().toString().equals(category)){
@@ -34,8 +36,8 @@ public class DashboardService {
 
     }
 
-    public PieChart getPieChart(String emailId, String yearMonth) {
-        List<ExpenseDTO> expenses = expenseService.getExpensesByMonth(emailId, yearMonth);
+    public PieChart getPieChart(long userId , String yearMonth) {
+        List<ExpenseDTO> expenses = expenseService.getExpensesByMonth(userId, yearMonth);
         double need = 0;
         double want = 0;
         double savings;
@@ -47,8 +49,8 @@ public class DashboardService {
                 want += expense.getAmount();
             }
         }
-        User user = userRepository.findByEmailId(emailId)
-                .orElseThrow(() -> new RuntimeException("User not found"));
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new ResourceNotFoundException(ResponseCodeEnum.USER_NOT_FOUND));
         savings = user.getMonthlyIncome() - (need + want);
         return PieChart.builder()
                 .need(need)

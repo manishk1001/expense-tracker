@@ -19,24 +19,24 @@ public class ExpenseController {
 
     @PostMapping
     public ResponseEntity<ExpenseDTO> createExpense(@RequestBody ExpenseDTO expenseDTO, Authentication authentication) {
-        String emailId = authentication.getName();
-        return ResponseEntity.ok(expenseService.createExpense(emailId, expenseDTO));
+        String userId = authentication.getName();
+        return ResponseEntity.ok(expenseService.createExpense(Long.parseLong(userId), expenseDTO));
     }
 
     @GetMapping("/{yearMonth}")
     public ResponseEntity<List<ExpenseDTO>> getExpensesByMonth(
             @PathVariable String yearMonth,
             Authentication authentication) {
-        String emailId = authentication.getName();
-        return ResponseEntity.ok(expenseService.getExpensesByMonth(emailId, yearMonth));
+        String userId = authentication.getName();
+        return ResponseEntity.ok(expenseService.getExpensesByMonth(Long.parseLong(userId), yearMonth));
     }
 
     @GetMapping("/category/{category}")
     public ResponseEntity<List<ExpenseDTO>> getExpensesByCategory(
             @PathVariable Category category,
             Authentication authentication) {
-        String emailId = authentication.getName();
-        return ResponseEntity.ok(expenseService.getExpensesByCategory(emailId, category));
+        String userId = authentication.getName();
+        return ResponseEntity.ok(expenseService.getExpensesByCategory(Long.parseLong(userId), category));
     }
 
     @PutMapping

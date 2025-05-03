@@ -1,31 +1,28 @@
 package com.expense_tracker.expense_tracker.entity;
 
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDateTime;
-
+@Builder
 @Entity
-@Table(name = "users")
+@Table(name = "PasswordOtp")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class User {
+public class PasswordOtp {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long otpId;
     private Long userId;
-
-    private String firstName;
-    private String lastName;
-    private String emailId;
-    private String password;
-    private Double monthlyIncome;
+    private String otp;
 
     @CreationTimestamp
     private LocalDateTime createdAt;
-    @UpdateTimestamp
-    private LocalDateTime lastModified;
+    private LocalDateTime expiry;
 }

@@ -18,13 +18,13 @@ public class DashboardController {
     private final DashboardService dashboardService;
     @GetMapping("/pie-chart/{yearMonth}")
     public ResponseEntity<PieChart> getPieChart(@PathVariable String yearMonth, Authentication authentication) {
-        String emailId = authentication.getName();
-        return ResponseEntity.ok(dashboardService.getPieChart(emailId, yearMonth));
+        String userId = authentication.getName();
+        return ResponseEntity.ok(dashboardService.getPieChart(Long.parseLong(userId), yearMonth));
     }
     @GetMapping("/table/{category}/{yearMonth}")
     public ResponseEntity<List<ExpenseDTO>> getTableByCategory(@PathVariable String category, @PathVariable String yearMonth,
             Authentication authentication) {
-        String emailId = authentication.getName();
-        return ResponseEntity.ok(dashboardService.getTableByCategory(emailId, category, yearMonth));
+        String userId = authentication.getName();
+        return ResponseEntity.ok(dashboardService.getTableByCategory(Long.parseLong(userId), category, yearMonth));
     }
 }
