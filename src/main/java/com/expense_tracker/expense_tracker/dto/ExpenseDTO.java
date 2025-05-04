@@ -1,6 +1,6 @@
 package com.expense_tracker.expense_tracker.dto;
 
-import com.expense_tracker.expense_tracker.entity.Category;
+import com.expense_tracker.expense_tracker.enums.Category;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

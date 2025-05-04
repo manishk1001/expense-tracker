@@ -19,7 +19,10 @@ public class PasswordOtp {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long otpId;
-    private Long userId;
+
+    @OneToOne
+    @JoinColumn(name = "userId", referencedColumnName = "userId")
+    private User user;
     private String otp;
 
     @CreationTimestamp

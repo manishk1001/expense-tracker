@@ -1,7 +1,7 @@
 package com.expense_tracker.expense_tracker.service;
 
 import com.expense_tracker.expense_tracker.dto.ExpenseDTO;
-import com.expense_tracker.expense_tracker.entity.Category;
+import com.expense_tracker.expense_tracker.enums.Category;
 import com.expense_tracker.expense_tracker.entity.Expense;
 import com.expense_tracker.expense_tracker.entity.User;
 import com.expense_tracker.expense_tracker.exception.ResourceNotFoundException;
@@ -27,7 +27,7 @@ public class ExpenseService {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new RuntimeException("User not found"));
         Expense expense = Expense.builder()
-                .userId(user.getUserId())
+                .user(user)
                 .description(expenseDTO.getDescription())
                 .category(expenseDTO.getCategory())
                 .amount(expenseDTO.getAmount())
@@ -44,7 +44,7 @@ public class ExpenseService {
     }
 
     public List<ExpenseDTO> getAllExpensesByUserId(Long userId) {
-        return expenseRepository.findByUserId(userId)
+        return expenseRepository.findByUser_UserId(userId)
                 .stream()
                 .map(this::convertToDTO)
                 .collect(Collectors.toList());
@@ -52,7 +52,7 @@ public class ExpenseService {
 
     public List<ExpenseDTO> getExpensesByCategory(long userId, Category category) {
         User user = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("User not found"));
-        return expenseRepository.findByUserIdAndCategory(user.getUserId(), category.name())
+        return expenseRepository.findByUser_UserIdAndCategory(user.getUserId(), category.name())
                 .stream()
                 .map(this::convertToDTO)
                 .collect(Collectors.toList());
@@ -67,7 +67,7 @@ public class ExpenseService {
             int year = date.getYear();
             int month = date.getMonthValue();
 
-            return expenseRepository.findByUserIdAndYearMonth(user.getUserId(), year, month)
+            return expenseRepository.findByUser_UserIdAndYearMonth(user.getUserId(), year, month)
                     .stream()
                     .map(this::convertToDTO)
                     .collect(Collectors.toList());

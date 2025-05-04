@@ -10,11 +10,11 @@ import java.util.List;
 
 @Repository
 public interface ExpenseRepository extends JpaRepository<Expense, Long> {
-    List<Expense> findByUserId(Long userId);
-    List<Expense> findByUserIdAndCategory(Long userId, String category);
+    List<Expense> findByUser_UserId(Long userId);
+    List<Expense> findByUser_UserIdAndCategory(Long userId, String category);
 
-    @Query("SELECT e FROM Expense e WHERE e.userId = :userId AND YEAR(e.createdAt) = :year AND MONTH(e.createdAt) = :month")
-    List<Expense> findByUserIdAndYearMonth(@Param("userId") Long userId, @Param("year") int year, @Param("month") int month);
+    @Query("SELECT e FROM Expense e WHERE e.user.userId = :userId AND YEAR(e.createdAt) = :year AND MONTH(e.createdAt) = :month")
+    List<Expense> findByUser_UserIdAndYearMonth(@Param("userId") Long userId, @Param("year") int year, @Param("month") int month);
 
-    void deleteAllByUserId(Long userId);
+    void deleteAllByUser_UserId(Long userId);
 }

@@ -2,7 +2,6 @@ package com.expense_tracker.expense_tracker.controller;
 
 import com.expense_tracker.expense_tracker.dto.ExpenseDTO;
 import com.expense_tracker.expense_tracker.dto.PieChart;
-import com.expense_tracker.expense_tracker.entity.Category;
 import com.expense_tracker.expense_tracker.service.DashboardService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;

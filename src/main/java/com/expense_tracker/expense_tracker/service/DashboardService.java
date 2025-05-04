@@ -2,7 +2,7 @@ package com.expense_tracker.expense_tracker.service;
 
 import com.expense_tracker.expense_tracker.dto.ExpenseDTO;
 import com.expense_tracker.expense_tracker.dto.PieChart;
-import com.expense_tracker.expense_tracker.entity.Category;
+import com.expense_tracker.expense_tracker.enums.Category;
 import com.expense_tracker.expense_tracker.entity.User;
 import com.expense_tracker.expense_tracker.exception.ResourceNotFoundException;
 import com.expense_tracker.expense_tracker.exception.ResponseCodeEnum;

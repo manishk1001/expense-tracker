@@ -106,7 +106,7 @@ public class UserService {
         String otp = passwordResetRequestDTO.getOtp();
         User user = userRepository.findByEmailId(emailId)
                 .orElseThrow(() -> new ResourceNotFoundException(ResponseCodeEnum.USER_NOT_FOUND));
-        PasswordOtp passwordOtp = passwordOtpRepository.findByUserIdAndExpiryAfter(user.getUserId(),LocalDateTime.now())
+        PasswordOtp passwordOtp = passwordOtpRepository.findByUser_UserIdAndExpiryAfter(user.getUserId(),LocalDateTime.now())
                         .orElseThrow(() -> new ResourceNotFoundException(ResponseCodeEnum.OTP_EXPIRED_OR_NOT_FOUND));
         user.setPassword(passwordEncoder.encode(password));
         userRepository.save(user);
@@ -117,7 +117,7 @@ public class UserService {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new ResourceNotFoundException(ResponseCodeEnum.USER_NOT_FOUND));
         userRepository.delete(user);
-        passwordOtpRepository.deleteAllByUserId(user.getUserId());
-        expenseRepository.deleteAllByUserId(user.getUserId());
+        passwordOtpRepository.deleteAllByUser_UserId(user.getUserId());
+        expenseRepository.deleteAllByUser_UserId(user.getUserId());
     }
 }

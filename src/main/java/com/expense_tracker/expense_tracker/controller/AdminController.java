@@ -8,7 +8,6 @@ import com.expense_tracker.expense_tracker.service.ExpenseService;
 import com.expense_tracker.expense_tracker.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;

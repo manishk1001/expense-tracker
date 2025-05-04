@@ -1,7 +1,7 @@
 package com.expense_tracker.expense_tracker.controller;
 
 import com.expense_tracker.expense_tracker.dto.ExpenseDTO;
-import com.expense_tracker.expense_tracker.entity.Category;
+import com.expense_tracker.expense_tracker.enums.Category;
 import com.expense_tracker.expense_tracker.service.ExpenseService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;

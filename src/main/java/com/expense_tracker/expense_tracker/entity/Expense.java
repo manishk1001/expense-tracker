@@ -1,5 +1,6 @@
 package com.expense_tracker.expense_tracker.entity;
 
+import com.expense_tracker.expense_tracker.enums.Category;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -21,8 +22,9 @@ public class Expense {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long expenseId;
 
-    @Column(nullable = false)
-    private Long userId;
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(nullable = false, name = "userId", referencedColumnName = "userId")
+    private User user;
 
     @Column(nullable = false)
     private String description;

@@ -29,7 +29,7 @@ public class PasswordOtpService {
         User user = userRepository.findByEmailId(emailId).orElseThrow(() -> new ResourceNotFoundException(ResponseCodeEnum.USER_NOT_FOUND));
         String code = OtpGenerator();
         LocalDateTime expiry = LocalDateTime.now().plusMinutes(10);
-        Optional<PasswordOtp> passwordOtpOptional = passwordOtpRepository.findByUserId(user.getUserId());
+        Optional<PasswordOtp> passwordOtpOptional = passwordOtpRepository.findByUser_UserId(user.getUserId());
         if(passwordOtpOptional.isPresent()){
             PasswordOtp passwordOtp = passwordOtpOptional.get();
             passwordOtp.setCreatedAt(LocalDateTime.now());
@@ -39,7 +39,7 @@ public class PasswordOtpService {
         }
         else{
             PasswordOtp passwordOtp = PasswordOtp.builder()
-                    .userId(user.getUserId())
+                    .user(user)
                     .otp(code)
                     .expiry(expiry).
                     build();
