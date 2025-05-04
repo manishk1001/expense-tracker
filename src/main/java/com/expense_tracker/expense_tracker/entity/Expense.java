@@ -22,7 +22,7 @@ public class Expense {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long expenseId;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(nullable = false, name = "userId", referencedColumnName = "userId")
     private User user;
 

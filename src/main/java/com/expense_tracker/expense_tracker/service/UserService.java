@@ -19,6 +19,7 @@ import java.util.List;
 import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
@@ -112,12 +113,13 @@ public class UserService {
         userRepository.save(user);
         passwordOtpRepository.delete(passwordOtp);
     }
-
+    @Transactional
     public void deleteUser(long userId) {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new ResourceNotFoundException(ResponseCodeEnum.USER_NOT_FOUND));
+        userRoleRepository.deleteAllByUserUserId(userId);
+        passwordOtpRepository.deleteAllByUser_UserId(userId);
+        expenseRepository.deleteAllByUser_UserId(userId);
         userRepository.delete(user);
-        passwordOtpRepository.deleteAllByUser_UserId(user.getUserId());
-        expenseRepository.deleteAllByUser_UserId(user.getUserId());
     }
 }
