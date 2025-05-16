@@ -1,0 +1,23 @@
+# Ignore version control
+.git
+.gitignore
+
+# Ignore build and IDE directories
+.gradle
+.idea
+build
+bin
+
+# Ignore log files
+*.log
+
+# Ignore test files
+src/test
+
+# Ignore local configuration
+*.env
+*.properties
+
+# Ignore macOS and Windows system files
+.DS_Store
+Thumbs.db
